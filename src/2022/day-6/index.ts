@@ -2,11 +2,11 @@ import { input } from "../day-6/data";
 
 const isUnique = (arr: string[]) => new Set(arr).size === arr.length;
 
-function findMarkerPosition(buffer: string, uniqueSequenceLength: number) {
-  const bufferArray = [...buffer];
+function findMarkerPosition(uniqueSequenceLength: number) {
+  const bufferArray = [...input];
 
   for (let index = 0; index < bufferArray.length; index++) {
-    const seq = buffer.substring(index, index + uniqueSequenceLength);
+    const seq = input.substring(index, index + uniqueSequenceLength);
     if (isUnique([...seq])) {
       return index + uniqueSequenceLength;
     }
@@ -15,5 +15,5 @@ function findMarkerPosition(buffer: string, uniqueSequenceLength: number) {
   throw new Error("No Elf communication this time");
 }
 
-console.log(findMarkerPosition(input, 4));
-console.log(findMarkerPosition(input, 14));
+console.log("Solution 1: ", findMarkerPosition(4));
+console.log("Solution 2: ", findMarkerPosition(14));
