@@ -1,5 +1,5 @@
 import { nextLineParseString } from "../../util/parse";
-import { sample as rawInput } from "./data";
+import { input as rawInput } from "./data";
 
 const input = nextLineParseString(rawInput);
 
@@ -12,7 +12,6 @@ const directories = new Map<string, number>();
 function openAndGetSize(indexOfCommand: number, path: string): any {
   let line = input[indexOfCommand];
   if (!line) {
-    console.log(directories);
     return directories;
   }
 
@@ -21,7 +20,9 @@ function openAndGetSize(indexOfCommand: number, path: string): any {
     if (action === "cd") {
       const dirToOpen = line.substring(5);
       if (dirToOpen === "..") {
-        const outerDir = path.split("/").slice(0, -1).join("/");
+        const paths = path.split("/");
+        paths.pop();
+        const outerDir = paths.join("/");
         console.log("got back: ", outerDir);
         return openAndGetSize(indexOfCommand + 1, outerDir);
       }
