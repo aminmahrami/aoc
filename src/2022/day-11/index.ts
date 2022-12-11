@@ -57,24 +57,20 @@ for (let round = 0; round < 20; round++) {
 			monkeyHistory.set(story.monkeyNumber, currentHistory + 1);
 
 			const item = startingItems[itemsIndex];
+			const opYNumberOrNaN = parseInt(story.operationY);
 			const worryLevelDuringInspection =
 				story.operationOperator === "*"
-					? item *
-					  (isNaN(parseInt(story.operationY))
-							? item
-							: parseInt(story.operationY))
-					: item +
-					  (isNaN(parseInt(story.operationY))
-							? item
-							: parseInt(story.operationY));
+					? item * (isNaN(opYNumberOrNaN) ? item : opYNumberOrNaN)
+					: item + (isNaN(opYNumberOrNaN) ? item : opYNumberOrNaN);
 			const worryLevelAfterInspection = Math.floor(
 				worryLevelDuringInspection / 3
 			);
-			if (worryLevelAfterInspection % story.divisibleDivider === 0) {
-				addToStack(story.nextMonkeyIfTrue, worryLevelAfterInspection);
-			} else {
-				addToStack(story.nextMonkeyIfFalse, worryLevelAfterInspection);
-			}
+			addToStack(
+				worryLevelAfterInspection % story.divisibleDivider === 0
+					? story.nextMonkeyIfTrue
+					: story.nextMonkeyIfFalse,
+				worryLevelAfterInspection
+			);
 		}
 		monkeyStack.set(story.monkeyNumber, []);
 	}
