@@ -1,32 +1,38 @@
-export const sample = `Monkey 0:
-Starting items: 79, 98
-Operation: new = old * 19
-Test: divisible by 23
-  If true: throw to monkey 2
-  If false: throw to monkey 3
+import {
+	nextLineParseString,
+	stringToNumber,
+	twoNextLinesParseString,
+} from "../../util/parse";
 
-Monkey 1:
-Starting items: 54, 65, 75, 74
-Operation: new = old + 6
-Test: divisible by 19
-  If true: throw to monkey 2
-  If false: throw to monkey 0
+// const sample = `Monkey 0:
+// Starting items: 79, 98
+// Operation: new = old * 19
+// Test: divisible by 23
+//   If true: throw to monkey 2
+//   If false: throw to monkey 3
 
-Monkey 2:
-Starting items: 79, 60, 97
-Operation: new = old * old
-Test: divisible by 13
-  If true: throw to monkey 1
-  If false: throw to monkey 3
+// Monkey 1:
+// Starting items: 54, 65, 75, 74
+// Operation: new = old + 6
+// Test: divisible by 19
+//   If true: throw to monkey 2
+//   If false: throw to monkey 0
 
-Monkey 3:
-Starting items: 74
-Operation: new = old + 3
-Test: divisible by 17
-  If true: throw to monkey 0
-  If false: throw to monkey 1`;
+// Monkey 2:
+// Starting items: 79, 60, 97
+// Operation: new = old * old
+// Test: divisible by 13
+//   If true: throw to monkey 1
+//   If false: throw to monkey 3
 
-export const input = `Monkey 0:
+// Monkey 3:
+// Starting items: 74
+// Operation: new = old + 3
+// Test: divisible by 17
+//   If true: throw to monkey 0
+//   If false: throw to monkey 1`;
+
+const input = `Monkey 0:
 Starting items: 62, 92, 50, 63, 62, 93, 73, 50
 Operation: new = old * 7
 Test: divisible by 2
@@ -81,3 +87,27 @@ Operation: new = old + 1
 Test: divisible by 17
   If true: throw to monkey 2
   If false: throw to monkey 1`;
+
+export const parsedInput = twoNextLinesParseString(input).map((monkey) => {
+	const story = nextLineParseString(monkey);
+	const monkeyNumber = parseInt(story[0].split(" ").getLast() || "");
+	const [operationOperator, operationY] = story[2].split(" ").slice(-2);
+	const divisibleDivider = parseInt(story[3].split(" ").pop() || "");
+	const nextMonkeyIfTrue = parseInt(story[4].split(" ").pop() || "");
+	const nextMonkeyIfFalse = parseInt(story[5].split(" ").pop() || "");
+	const startingItems = story[1]
+		.split(":")
+		.getLast()
+		.split(",")
+		.map(stringToNumber);
+
+	return {
+		monkeyNumber,
+		operationOperator,
+		operationY,
+		divisibleDivider,
+		nextMonkeyIfTrue,
+		nextMonkeyIfFalse,
+		startingItems,
+	};
+});

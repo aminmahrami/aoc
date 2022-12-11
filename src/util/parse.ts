@@ -6,7 +6,7 @@ declare global {
 		sortAsc(): Array<number>;
 		sum(): number;
 		multiply(): number;
-		getLast(): T | undefined;
+		getLast(): T;
 	}
 }
 
@@ -34,6 +34,9 @@ Array.prototype.sum = function (): number {
 };
 
 Array.prototype.getLast = function () {
+	if (!this.length) {
+		throw new Error("Can't get index of empty");
+	}
 	return this[this.length - 1];
 };
 
